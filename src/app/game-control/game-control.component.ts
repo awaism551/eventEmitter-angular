@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 
 @Component({
 	selector: "app-game-control",
@@ -10,6 +10,7 @@ export class GameControlComponent implements OnInit {
 	oddValue;
 	evenValue;
 	interval;
+	@Output() valueEmitter = new EventEmitter<number>();
 	constructor() { }
 
 	ngOnInit() { }
@@ -17,13 +18,7 @@ export class GameControlComponent implements OnInit {
 	start() {
 		this.interval = setInterval(() => {
 			this.value = Math.floor((Math.random() * 100) + 1);
-			if (this.value % 2 === 0) {
-				// value is even
-				this.evenValue = this.value;
-			} else {
-				// value is odd
-				this.oddValue = this.value;
-			}
+			this.valueEmitter.emit(this.value);
 		}, 2500);
 	}
 
